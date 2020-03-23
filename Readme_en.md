@@ -1,16 +1,17 @@
 # Gossip ![Build status](https://travis-ci.org/edwardcapriolo/incubator-gossip.svg?)
 
- Gossip协议 是一种用于一组节点发现和检查集群活性的方法。更多信息请访问 http://en.wikipedia.org/wiki/Gossip_protocol.
+Gossip protocol is a method for a group of nodes to discover and check the liveliness of a cluster. More information can be found at http://en.wikipedia.org/wiki/Gossip_protocol.
 
-原始的实现fork自 https://code.google.com/p/java-gossip/。一些对错误的修复和更改已经加入。
+The original implementation was forked from https://code.google.com/p/java-gossip/. Several bug fixes and changes have already been added.
 
-gossip-examples 模块中提供了一组简易运行的示例，这些示例说明了 Gossip 的各种功能。该模块中的 README.md 文件描述了如何运行这些示例。
+A set of easily-run examples, illustrating various features of Gossip, are available in the gossip-examples module. The README.md file, in that module described how to run those examples.
 
-下面的一系列代码片段，显示了如何将 Apache Gossip 集成到你的项目中。
+Below, a list of code snippits which show how to incorproate Apache Gossip into your project.  
 
-使用方法
+Usage
 -----
-你需要一个或多个种子节点( Seed Node )去实现 gossip。种子只是初始连接位置的一个列表。
+
+To gossip you need one or more seed nodes. Seed is just a list of places to initially connect to.
 
 ```java
   GossipSettings settings = new GossipSettings();
@@ -22,7 +23,7 @@ gossip-examples 模块中提供了一组简易运行的示例，这些示例说�
   }
 ```
 
-我们在这里开始 5 个 gossip 进程 ，并检查它们是否能相互发现。（通常它们应该位于不同的主机上，但在这里，我们只给每个进程提供一个不同的本地ip地址）
+Here we start five gossip processes and check that they discover each other. (Normally these are on different hosts but here we give each process a distinct local ip.)
 
 ```java
   List<GossipService> clients = new ArrayList<>();
@@ -34,8 +35,7 @@ gossip-examples 模块中提供了一组简易运行的示例，这些示例说�
   }
 ```
 
-之后我们可以检查节点是否能够互相发现。
-
+Later we can check that the nodes discover each other
 
 ```java
   Thread.sleep(10000);
@@ -44,10 +44,10 @@ gossip-examples 模块中提供了一组简易运行的示例，这些示例说�
   }
 ```
 
-Settings 文件的用法
+Usage with Settings File
 -----
 
-对于一个非常简单的客户端的设置文件，首先你需要像这样的一个JSON文件：
+For a very simple client setup with a settings file you first need a JSON file such as:
 
 ```json
 [{
@@ -62,16 +62,16 @@ Settings 文件的用法
 }]
 ```
 
-对照：
+where:
 
-* `cluster`  - 集群的名称
-* `id` - 此节点的唯一 ID（你可以使用任何字符串，但在上面我们使用UUID）
-* `uri`  - 一个 URI 对象，其中包含要在节点计算机上的默认适配器上使用的IP /主机号和端口号
-* `gossip_interval` - gossip 成员列表到其他节点的频率（以毫秒为单位）
-* `cleanup_interval` - 何时删除“死亡”节点（以毫秒为单位）（已弃用的可能会回来）
-* `members` - 初始种子节点
+* `cluster` - is the name of the cluster 
+* `id` - is a unique id for this node (you can use any string, but above we use a UUID)
+* `uri` - is a URI object containing IP/hostname and port to use on the default adapter on the node's machine
+* `gossip_interval` - how often (in milliseconds) to gossip list of members to other node(s)
+* `cleanup_interval` - when to remove 'dead' nodes (in milliseconds) (deprecated may be coming back)
+* `members` - initial seed nodes
 
-然后可以非常简单的启动本地节点：
+Then starting a local node is as simple as:
 
 ```java
 GossipService gossipService = new GossipService(
@@ -80,28 +80,26 @@ GossipService gossipService = new GossipService(
 gossipService.start();
 ```
 
-在完成所有操作后，使用以下命令关闭：
+And then when all is done, shutdown with:
 
 ```java
 gossipService.shutdown();
 ```
 
-事件监听器（ Event Listener ）
+Event Listener
 ------
 
-可使用返回不可变列表 List<> 的 getter 方法来查询状态。
-
+The status can be polled using the getters that return immutable lists.
 
 ```java
    public List<LocalGossipMember> getLiveMembers()
    public List<LocalGossipMember> getDeadMembers()
 ```
 
-这些内容可以从 `GossipServicel类` 里的 `GossipManager方法` 访问，例如：  
+These can be accessed from the `GossipManager` on your `GossipService`, e.g:
 `gossipService.getGossipManager().getLiveMembers();`
 
-
-你也自己可以绑定一个事件监听器：
+Users can also attach an event listener:
 
 ```java
     GossipService gossipService = new GossipService(cluster, uri, i + "", startupMembers,
@@ -112,7 +110,6 @@ gossipService.shutdown();
                 + member + " " + state);
       }
   });
-  //lambda 表达式的语法是 (a,b) -> { }  //完美！
-
+  //The lambda syntax is (a,b) -> { }  //NICE!
 ```
 

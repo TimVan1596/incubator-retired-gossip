@@ -41,6 +41,7 @@ public class StandAloneNodeCrdtOrSet extends StandAloneExampleBase {
     super.initGossipManager(args);
   }
 
+  @Override
   void printValues(GossipManager gossipService) {
     System.out.println("Last Input: " + getLastInput());
     System.out.println("---------- Or Set " + (gossipService.findCrdt(INDEX_KEY_FOR_SET) == null
@@ -52,6 +53,7 @@ public class StandAloneNodeCrdtOrSet extends StandAloneExampleBase {
     System.out.println("$$$$$$$$$$ " + gossipService.findCrdt(INDEX_KEY_FOR_COUNTER));
   }
 
+  @Override
   boolean processReadLoopInput(String line) {
     boolean valid = true;
     char op = line.charAt(0);

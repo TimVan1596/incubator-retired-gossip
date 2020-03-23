@@ -36,6 +36,7 @@ public class StandAlonePNCounter extends StandAloneExampleBase {
     super.initGossipManager(args);
   }
 
+  @Override
   void printValues(GossipManager gossipService) {
     System.out.println("Last Input: " + getLastInput());
     System.out.println("---------- " + (gossipService.findCrdt("myPNCounter") == null ? ""
@@ -43,6 +44,7 @@ public class StandAlonePNCounter extends StandAloneExampleBase {
     System.out.println("********** " + gossipService.findCrdt("myPNCounter"));
   }
 
+  @Override
   boolean processReadLoopInput(String line) {
     char op = line.charAt(0);
     char blank = line.charAt(1);

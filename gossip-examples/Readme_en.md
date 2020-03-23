@@ -1,108 +1,126 @@
-示例的运行
+Running the Examples
 ===================================================
 
-Apache Gossip 旨在作为其他人使用的运行库。也就是说，它仅想要成为能嵌入其他代码中的一个功能而已。
+Apache Gossip is designed to run as library used by others. That is, it in intended as a feature to be embedded in other code.
 
-这些示例说明了一些从“轻”应用层调用 Gossip 的简单案例，用来说明本库的各种功能。
+These examples illustrate some simple cases of the invocation of Gossip from an "thin" application layer, to illustrate various 
+features of the library. 
 
-更多信息请参考：
-* 这个[YouTube 视频](https://www.youtube.com/watch?v=bZXZrp7yBkw&t=39s) 演示并阐明了第一个示例。
-* 这个 [YouTube video](https://www.youtube.com/watch?v=SqkJs0QDRdk) 并阐明了第二个示例。
-* 一个 [ Gossip 协议的综合性解释](https://en.wikipedia.org/wiki/Gossip_protocol)
+For additional information see:
+* This [YouTube video](https://www.youtube.com/watch?v=bZXZrp7yBkw&t=39s) illustrating and illuminating the first example.
+* This [YouTube video](https://www.youtube.com/watch?v=SqkJs0QDRdk) illustrating and illuminating the second example.
+* A [general description of the Gossip Protocol](https://en.wikipedia.org/wiki/Gossip_protocol)
 
-初始化设置-前提条件
+Initial setup - Preconditions
 -----------------------------
+These instructions assume that you are using a Unix-like command line interface; translate as necessary.
 
-这些说明假定您使用的是类 Unix 的命令行界面(若有必要请翻译)
+Prior to running these examples you will need to have your environment set up to run java and Maven
+commands: 
+* install java 8 - [https://java.com/](https://java.com/), and
+* install Maven - [https://maven.apache.org/install.html](https://maven.apache.org/install.html)
 
-在运行这些示例之前，您需要设置环境以运行 Java 和 Maven 命令：
-* 安装 java 8 - [https://java.com/](https://java.com/), 和
-* 安装 Maven - [https://maven.apache.org/install.html](https://maven.apache.org/install.html)
+Then, you will need a local copy of the code. The simplest is to download the project to a local folder:
+* browse to [https://github.com/apache/incubator-gossip](https://github.com/apache/incubator-gossip)
+* click on the "Clone of Download" button
+* click on the "Download ZIP" option
+* unzip the file to in a convenient location
+In what follows, we will call the resulting project folder **incubator-gossip**.
 
+As an alternative, you can also [clone](https://help.github.com/articles/cloning-a-repository/)
+the GitHub repository.
 
-然后你将需要本地拷贝的代码。最简单的方式是将项目下载到本地文件夹：
-* 打开网页 [https://github.com/apache/incubator-gossip](https://github.com/apache/incubator-gossip)
-* 点击“ Clone of Download ”按钮
-* 点击“ Download ZIP ”选项
-* 将文件解压到合适的位置。接下来，我们将生成的项目文件夹命名为 **incubator-gossip**。
-
-
-或者，您也可以 [clone](https://help.github.com/articles/cloning-a-repository/) GitHub 仓库。
-
-最后，您将需要使用 Maven 来构建和安装必要的依赖项：
+Lastly, you will need to use Maven to build and install the necessary dependencies:
 ```
 cd incubator-gossip
 mvn install -DskipTests
 ```
 
-在完成所有步骤后，您就可以开始运行第一个示例了……
+When all that is finished are you ready to start running the first example...
 
 
-
-运行 org.apache.gossip.examples.StandAloneNode
+Running org.apache.gossip.examples.StandAloneNode
 -------------------------------------------------
-第一个示例说明了基础的、底层的通信层。通信层建立并维护了 gossip 网络集群。
+This first example illustrates the basic, underlying, communication layer the sets up and maintains a gossip network cluster.
 
+In the [YouTube video](https://www.youtube.com/watch?v=bZXZrp7yBkw&t=39s) there is a description of
+the architecture and a demonstration of running of this example. While the video was created with an earlier version of the system,
+these instructions will get you going on that example.
 
-在这个[ YouTube 视频](https://www.youtube.com/watch?v=bZXZrp7yBkw&t=39s) 中，描述了该架构并演示了此示例的运行。虽然使用的是较早版本系统来录制视频，但这些说明将继续带您运行该示例。
+To run this example from the code (in a clone or download of the archive) simply change your working directory
+to the gossip-examples module and run the application in maven.
 
-要从代码中运行该示例（在复制或下载的文件中），只需要将工作目录更改为 gossip-examples 模块，然后在 maven 中运行该程序。
-
-具体来说，在复制或下载仓库后可以：
+Specifically, after cloning or downloading the repository:
 ```
 cd incubator-gossip/gossip-examples
 mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0"
 ```
 
+This sets up a single StandAloneNode that starts out listening to itself. The arguments are:
+1. The URI (host and port) for the node - **udp://localhost:10000**
+2. The id for the node - **0**
+3. The URI for a "seed" node - **udp://localhost:10000**
+4. The id for that seed node - **0**
 
-这将建立一个 StandAloneNode ，开始监听它自身。它的参数是：
-1. 节点的URI（主机和端口）- **udp://localhost:10000**
-2. 节点的 ID - **0**
-3. “种子”节点的 URI -  **udp://localhost:10000**
-4. 该种子节点的ID- **0**
+Note. To stop the the example, simply kill the process (control-C, for example).
 
-
-注意:要停止该示例，只需杀死进程（如 Ctrl C）。
-
-在此程序中，输出使用一种“终端转义序列”，该序列清除终端显示并将光标重置到左上角。如果由于某种原因在您的情况下不起作用，则可以在命令行的 args 中添加（optional）标志“-s”，以消除这种“清除屏幕”行为。这是：
+In this application, the output uses a "terminal escape sequence" that clears the 
+terminal display and resets the cursor to the upper left corner.
+if, for some reason, this is not working in your case, you can add the (optional) flag '-s' to the args in the 
+command line, to suppress this "clear screen" behavior. That is:
 ```
 cd incubator-gossip/gossip-examples
 mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.args="-s udp://localhost:10000 0 udp://localhost:10000 0"
 ```
 
-通常情况下，您会在分散主机的网络上建立节点，但在这里，为了说明 Gossip 中的基本通信，我们仅在同一主机 localhost 上运行所有节点。种子节点通常将是网络中其他节点之一：该节点有足够的信息来（最终）获取其集群中所有节点的列表。
+Normally, you would set up nodes in a network on separate hosts, but in this case, illustrating the basic communications in gossip,
+we are just running all the nodes on the same host, localhost. The seed node will generally be one of the other nodes in the
+network: enough information for this node to (eventually) acquire the list of all nodes in its cluster.
 
-您将会看到这个 gossip 节点打印出两个其他已知节点的列表 List ，即活动节点和死亡节点。活动节点假定为活动且已连接的节点，失效节点是“丢失”了足够长的时间而被假定为休眠或断开连接的节点。可在视频中查看详细信息。
+You will see that this gossip node prints out two list of know other nodes, live and dead. The live nodes are nodes assumed to be active and
+connected, the dead nodes are nodes that have "gone missing" long enough to be assumed dormant or disconnected. See details in the video.
 
-在这个集群仅运行一个节点的情况下，没有检测到其他节点，因此活动列表和无效列表都是空的。
+With only a single node running in this cluster, there are no other nodes detected, so both the live and dead lists are empty.
 
+Then, in a separate terminal window, cd to the same folder and enter the the same run command with the first two arguments 
+changed to reflect the fact that this is a different node
+1. host/port for the node - **udp://localhost:10001**
+2. id for the node - **1**
 
-然后，在分割开来的单独的终端窗口中，使用 cd 转到相同的文件夹，并输入相同的运行命令，但改变前两个参数来印证这是一个不同的节点
-1. 节点的主机/端口- **udp://localhost:10001**
-2. 节点的ID- **1**
-
-像这样：
+That is:
 ```
 cd incubator-gossip/gossip-examples
 mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0"
 ```
-现在，因为“种子节点”是我们启动的第一个节点，因此第二个节点在监听第一个节点，并且它们交换已知节点的列表。然后开始互相监听，以便在短期内它们都拥有一个实时注释的列表，其中一个成员是集群中的另一个实时节点。
 
-最后，在另一个终端窗口中，cd 到同一文件夹并输入相同的运行命令，其中前两个参数改为
-1. 节点的主机/端口 - **udp://localhost:10002**
-2. 节点的 ID - **2**
+Now, because the "seed node" is the first node that we started, this second node is listening to the first node, 
+and they exchange list of known nodes. And start listening to each other, so that in short order they both have a list of live notes
+with one member, the other live node in the cluster.
+
+Finally, in yet another terminal window, cd to the same folder and enter the the same run command with the first two arguments changed to
+1. host/port for the node - **udp://localhost:10002**
+2. id for the node - **2**
 
 ```
 cd incubator-gossip/gossip-examples
 mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0”
 ```
-现在，集群的活动节点列表会聚合起来，反映了每个节点与其他两个节点的连接。
 
-为看到一个节点被移到了死亡列表。在正在运行的终端中的一个终止该进程：在终端窗口中输入 Ctrl C。然后，剩下的两个节点的活动-死亡列表将收敛，显示有一个节点处于活动状态，而有一个节点处于死亡状态。再次启动刚刚“丢失”的节点，它将再次出现在活动列表中。请注意，哪个节点处于休眠状态都无关紧要，每个活动节点（最终）都将与集群中的其他活动节点进行通信并获取必要的更新状态信息。
+Now the lists of live nodes for the cluster converge to reflect each node's connections to the other two nodes.
 
-如果阅读该代码，您将看到它定义了一个（名称 = 'mycluster'）和许多其他设置的详细信息。请参阅视频，以获取关于设置的更完整描述以及有关节点之间交互的更详细描述。
+To see a node moved to the dead list. Kill the process in one of the running terminals: enter control-c in the terminal window.
+Then the live-dead list of the two remaining nodes will converge to show one node live and one node dead. 
+Start the missing node again, and it will again appear in the live list. 
+Note, that it does not matter which node goes dormant, every live node (eventually) communicates with some other 
+live node in the cluster and gets the necessary updated status information.
 
-还要注意，运行这些节点的进程会生成一组记录节点状态的 JSON 文件（位于节点运行的 “base” 目录中）。当故障节点的恢复，这可以启用快速启动。在此示例中，要使用control-c恢复已杀死的节点，只需重新发出命令以运行该节点。
+If you read the code, you will see that it defines a cluster (name = 'mycluster') and a number of other setup details. See the video for
+a more complete description of the setup and for a more details description of the interactions among the nodes.
+
+Also note, that the process of running these nodes produces a set of JSON files recording node state (in the 'base' directory from where the node
+running). This enables a quicker startup as failed nodes recover. In this example, to recover a node that you have killed, 
+using control-c, simply re-issue the command to run the node.
+
 
 Running org.apache.gossip.examples.StandAloneNodeCrdtOrSet
 ----------------------------------------------------------

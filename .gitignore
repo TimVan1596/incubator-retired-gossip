@@ -15,3 +15,8 @@
 # Maven
 log/
 target/
+
+#节点产生JSON配置文件
+pernodedata.*.json
+ringstate.*.json
+shareddata.*.json
