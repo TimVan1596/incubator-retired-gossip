@@ -6,8 +6,8 @@ Apache Gossip 旨在作为其他人使用的运行库。也就是说，它仅想
 这些示例说明了一些从“轻”应用层调用 Gossip 的简单案例，用来说明本库的各种功能。
 
 更多信息请参考：
-* 这个[YouTube 视频](https://www.youtube.com/watch?v=bZXZrp7yBkw&t=39s) 演示并阐明了第一个示例。
-* 这个 [YouTube video](https://www.youtube.com/watch?v=SqkJs0QDRdk) 并阐明了第二个示例。
+* 这个[YouTube 视频](https://www.youtube.com/watch?v=bZXZrp7yBkw&t=39s)或 [BiliBili 视频](https://www.bilibili.com/video/BV1U741127K4)演示并阐明了第一个示例。
+* 这个 [YouTube 视频](https://www.youtube.com/watch?v=SqkJs0QDRdk) 并阐明了第二个示例。
 * 一个 [ Gossip 协议的综合性解释](https://en.wikipedia.org/wiki/Gossip_protocol)
 
 初始化设置-前提条件
@@ -104,66 +104,58 @@ mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.
 
 还要注意，运行这些节点的进程会生成一组记录节点状态的 JSON 文件（位于节点运行的 “base” 目录中）。当故障节点的恢复，这可以启用快速启动。在此示例中，要使用control-c恢复已杀死的节点，只需重新发出命令以运行该节点。
 
-Running org.apache.gossip.examples.StandAloneNodeCrdtOrSet
+运行 org.apache.gossip.examples.StandAloneNodeCrdtOrSet
 ----------------------------------------------------------
-This second example illustrates the using the data layer to share structured information: a shared representation of a set
-of strings, and a shared counter. The objects representing those shared values are special cases of a Conflict-free Replicated
-Data Type (hence, CRDT). 
 
-Here is the problem that is solved by these CRDT objects: since each node in a cluster can message any other node in the cluster
-in any order, the messages that reflect the content of data structure can arrive in any order. For example, one node may add an object
-to the set and send that modified set to another node that removes that object and sends that message to a third node. If the first node
-also sends a message to the third node (with the object in the set), the third node could receive conflicting information. But the CRDT
-data structures always contain enough information to resolve the conflict.
+第二个示例说明了如何使用数据层共享结构化信息：一组字符串的共享和共享计数器的表示形式。表示这些共享值的对象是免冲突的可复制的数据类型（即CRDT）的特例。
+ 
+ 这是这些CRDT对象要解决的问题：由于集群中的每个节点都可以用任意顺序向集群中的任何其他节点发送消息，因此反映数据结构内容的消息可以按任何顺序到达。
+ 例如，一个节点可能会将一个对象添加到集合中，然后将修改后的集合发送到另一个删除了该对象，并将这个消息发送到第三各节点。如果第一个节点也向第三个节点发送了消息（对象在集合中），则第三个节点可能会收到存在冲突的信息。但是，CRDT数据结构始终包含足够的信息来解决冲突。
 
-As with the first demo there is a You Tube video that illustrates the problem and shows how it is resolved and illustrates the running
-example: [https://www.youtube.com/watch?v=SqkJs0QDRdk](https://www.youtube.com/watch?v=SqkJs0QDRdk) .
 
-Again, we will run three instances of the example, to illustrate the actions of the nodes in the cluster. 
-The arguments to the application are identical to those in the
-first example. The difference in this example is that each node will read "commands" the change the local state of its information. Which we 
-will illustrate shortly. But first, lets get the three nodes running:
+和第一个演示一样，还有一个YouTube视频，该视频说明了这个问题并展示了如何解决它，并解释了运行过程。
+示例: [https://www.youtube.com/watch?v=SqkJs0QDRdk](https://www.youtube.com/watch?v=SqkJs0QDRdk) .
 
-In the first terminal window:
+
+同样，我们将运行该这个示例的三个实例，来说明集群中节点的操作。该应用程序的参数与第一个示例中的参数相同。此示例中的区别在于，每个节点将读取更改其本地状态信息的“命令（commands）”。我们将会在稍后说明。但是首先，我们让这三个节点运行：
+
+
+
+在第一个终端窗口中：
 ```
 cd incubator-gossip/gossip-examples
 mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSet -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0"
 ```
 
-In the second terminal window:
+在第二个终端窗口中：
 ```
 cd incubator-gossip/gossip-examples
 mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSet -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0"
 ```
 
-In the third terminal window:
+在第三个终端窗口中：
 ```
 cd incubator-gossip/gossip-examples
 mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSet -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0"
 ```
 
-Now, at any of the terminal windows, you can type a command from the following set of commands to change the data that is stored locally. 
-Note, while you are typing, the terminal output continues, forcing you to type blind, but when you hit the return, to end
-the input line, the input will be briefly displayed before scrolling off the screen.
 
-When you type one of these commands, you can then watch the propagation of that data through the cluster. The commands are:
+现在，在任意一个终端窗口中，你都可以从以下的命令集中键入一个命令来更改本地存储的数据。注意，在你键入时，终端会继续同时输出字符，这要求你必须盲打键盘，但是当你按回车键来结束输入行时，输入将短暂显示，然后滚动到屏幕之外。
+
+当你键入这些命令中的其中一个时，便可以观察这个数据在集群中的传播。这些命令是：
 ```
 a string
 r string
 g number
 ```
-* **a** is the 'add' command; it adds the string to the shared set - you should see the set displayed with the new value, 
-    eventually, at all nodes.
-* **r** is the 'remove' command; it removes the string from the set (if it exists in the set) - you should see the 
-	value eventually leave the set at all nodes
-* **g** is the "global increment" command; it assume that it's argument is a number and adds that number to an accumulator.
-    Eventually, the accumulator at all nodes will settle to the same value.
 
-The CRDT representations of these values assure that all nodes will reach the same end state for the resulting value regardless of the order
-of arrival of information from other nodes in the cluster.
+* **a** 是“添加”命令；它将字符串添加到共享集合中 - 最终，您应该能在所有节点上看到这个集合中的新增值。
+* **r** 是“删除”命令；它将字符串从集合中删除（如果它存在于集合中）- 最终，您应该能看到这个值将离开所有节点上的共享集合
+* **g** 是“全局增量”命令；假设它的参数是一个数字，然后将该数字加到一个累加器上。最终，所有节点上的累加器将稳定为相同的值。
 
-As an augmentation to the video, this [wikipedia article](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type),
-describing various CRDT representations and their usefulness, as well as some information about interesting applications.
+这些值的 CRDT 表示可确保不论从集群中其他节点的到达的信息顺序如何，所有节点值的结果都最终达到到相同状态，
+
+作视频的一个补充，这个[维基百科文章](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type)描述了各种CRDT的表示形式及他们的作用，以及关于一些有趣的应用程序的信息。
 
 
 Running org.apache.gossip.examples.StandAloneDatacenterAndRack
