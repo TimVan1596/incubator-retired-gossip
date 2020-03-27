@@ -158,38 +158,34 @@ g number
 作视频的一个补充，这个[维基百科文章](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type)描述了各种CRDT的表示形式及他们的作用，以及关于一些有趣的应用程序的信息。
 
 
-Running org.apache.gossip.examples.StandAloneDatacenterAndRack
+运行 org.apache.gossip.examples.StandAloneDatacenterAndRack
 --------------------------------------------------------------
 
-This final example illustrates more fine grained control over the expected "responsiveness" of nodes in the cluster. 
 
-Apache gossip is designed as a library intended to be embedded in applications which to take advantage of the gossip-protocol 
-for peer-to-peer communications. The effectiveness of communications among nodes in a gossip cluster can be tuned
-to the expected latency of message transmission and expected responsiveness of other nodes in the network. This example illustrates
-one model of this type of control: a "data center and rack" model of node distribution. In this model, nodes that are in the same
-'data center' (perhaps on a different 'rack') are assumed to  have very lower latency and high fidelity of communications. 
-While, nodes in different data centers are assumed to require more time to communicate, and be subject to
-a higher rate of communication failure, so communications can be tuned to tolerate more variation in latency and success of
-transmission, but this result in a longer "settle" time.
+最后一个示例说明了对集群中节点的预期“响应性”更加细粒度的访问控制。Apache gossip 被设计为旨在，利用 gossip 协议进行点对点通信，能嵌入应用程序中的库。
+ 
+ The effectiveness of communications among nodes in a gossip cluster can be tuned to the expected latency of message transmission and expected responsiveness of other nodes in the network. 
+可以将 gossip 群集中节点之间的通信效率调整为消息传输的预期延迟和网络中其他节点的预期响应能力。
 
-Accordingly, the application in this example has a couple of extra arguments, a data center id, and a rack id. 
+这个示例说明了这种控制类型的一个模型：一种叫做“数据中心和机架”的节点分布模型。在此模型中，假设位于相同“数据中心”（也许位于不同“机架”中）的节点具有非常低的延迟和较高的通信保真度。然而，位于不同数据中心中的节点假设需要更多的时间进行通信，并且通信失败率更高，因此可以调整通信以容忍延迟和成功传输上有更多变化，但这会造成需要更长的时间达到“稳定”。
 
-To start the first node (in the first terminal window), type the following:
+因此，此示例中的应用程序有额外的几个参数，一个数据中心ID和一个机架ID。
+
+要启动第一个节点（在第一个终端窗口中），请键入以下内容：
 
 ```
 cd incubator-gossip/gossip-examples
 mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRack -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0 1 2"
 ```
-The first four arguments are the same as in the other two examples, and the last two arguments are the new arguments:
-1. The URI (host and port) for the node - **udp://localhost:10000**
-2. The id for the node - **0**
-3. The URI for a "seed" node - **udp://localhost:10000**
-4. The id for that seed node - **0**
-5. The data center id - **1**
-6. The rack id - **2**
+前四个参数与其他两个示例相同，后面两个参数是新参数：
+1. 节点的URI（主机和端口）- **udp://localhost:10000**
+2. 节点的ID - **0**
+3. “种子”节点的URI - **udp://localhost:10000**
+4. 该种子节点的ID - **0**
+5. 数据中心ID - **1**
+6. 机架ID - **2**
 
-Lets then, set up two additional nodes (each in a separate terminal window), one in the same data center on a different rack,
-and the other in a different data center. 
+然后，让我们设置另外的两个节点（每个节点在一个单独的终端窗口中），一个在不同机架上的同一数据中心，另一个在不同的数据中心中。
 ```
 cd incubator-gossip/gossip-examples
 mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRack -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0 1 3"
@@ -199,22 +195,16 @@ mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAn
 cd incubator-gossip/gossip-examples
 mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRack -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0 2 2"
 ```
+现在，运行在第一个终端窗口中的应用程序，被识别为在数据中心1和机架2中运行；第二个终端窗口中的应用程序在同一数据中心的不同机架（数据中心1，机架3）中运行。同时，第三个终端中的应用程序在不同的数据中心（数据中心2）中运行。
 
-Now, the application running in the first terminal window, is identified as running in data center 1 and on rack 2;
-the application in the second terminal window is running in the same data center in a different rack (data center 1, rack 3).
-While, the application in the third terminal is running in a different data center (data center 2). 
+如果将第一个终端窗口中的节点终止（Ctrl C），你会观察到第三个终端窗口中的进程比起第二个窗口需要更长的时间才能稳定到正确的状态，因为它预期消息在传输中将会有更高的延迟，（因此）它更能容忍消息中的延迟（和丢弃），从而花费更长的时间来检测被终止的进程是“离线”的。
 
-If you stop the node in the first terminal window (control-c) you will observe that the process in the third terminal window
-takes longer to settle to the correct state then the process in the second terminal window, because it is expecting
-a greater latency in message transmission and is (therefore) more tolerant to delays (and drops) in messaging, taking it
-longer to detect that the killed process is "off line".
-
-Final Notes
+注意事项
 -----------
+示例运行的描述到此结束。
 
-That concludes the description of running the examples.
+该项目是一个 Apache [孵化器项目](http://incubator.apache.org/projects/gossip.html). 
+在[官方网站](http://gossip.incubator.apache.org/community/)上有更多信息：见尤其是“community”栏目下的“get involved”。请尽情享受，如果您发现此库有帮助请用任意方式告诉我们。
 
-This project is an Apache [incubator project](http://incubator.apache.org/projects/gossip.html). 
-The [official web site](http://gossip.incubator.apache.org/community/) has much additional information: 
-see especially 'get involved' under 'community'. Enjoy, and please let us know if you are finding this library helpful in any way.
+
 

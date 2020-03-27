@@ -23,6 +23,7 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.apache.gossip.GossipSettings;
 import org.apache.gossip.RemoteMember;
@@ -32,15 +33,61 @@ import org.apache.gossip.manager.GossipManagerBuilder;
 
 public class StandAloneDatacenterAndRack extends StandAloneExampleBase {
 
-  public static void main(String[] args) throws InterruptedException, IOException {
+  public static void main(String[] args) throws  IOException {
+
+//    //udp://localhost:5400 0 udp://localhost:10000 0
+//    //netstat -aon|findstr "5400"
+//    //tasklist|findstr "2720"
+//
+//    String[] paraURL1 = {"udp://localhost:5400","0"
+//            ,"udp://localhost:5400","0","1","2"};
+//    String[] paraURL2 = {"udp://localhost:5402","2"
+//            ,"udp://localhost:5401","1","1","2"};
+//    String[] paraURL3 = {"udp://localhost:5403","3"
+//            ,"udp://localhost:5401","1","2","1"};
+//    String[] paraURL4 = {"udp://localhost:5404","4"
+//            ,"udp://localhost:5401","1","4","1"};
+//
+//    System.out.println("StandAloneDatacenterAndRack - 请输入启动节点列表编号");
+//    Scanner scanner = new Scanner(System.in);
+//    String[] paraURL = null;
+//    int optionNum = scanner.nextInt();
+//    switch (optionNum){
+//      case 1:{
+//        paraURL = paraURL1;
+//        break;
+//      }
+//      case 2:{
+//        paraURL = paraURL2;
+//        break;
+//      }
+//      case 3:{
+//        paraURL = paraURL3;
+//        break;
+//      }
+//      default:{
+//        paraURL = paraURL4;
+//
+//      }
+//    }
+//    System.out.println(String.format("%d号节点开始运行 -- port = %s , id = %s"
+//            , optionNum,paraURL[0].substring(paraURL[0].length()-4,paraURL[0].length()),paraURL[1]));
+//    System.out.println("当前数据中心ID="+paraURL[4]+"，机架ID="+paraURL[5]);
+//
+//
+//    StandAloneDatacenterAndRack example = new StandAloneDatacenterAndRack(paraURL);
     StandAloneDatacenterAndRack example = new StandAloneDatacenterAndRack(args);
+
+    for (String inst : args) {
+      System.out.println(inst);
+    }
     boolean willRead = true;
     example.exec(willRead);
   }
 
-  StandAloneDatacenterAndRack(String[] args) {
-    args = super.checkArgsForClearFlag(args);
-    initGossipManager(args);
+  StandAloneDatacenterAndRack(String[] param) {
+    param = super.checkArgsForClearFlag(param);
+    initGossipManager(param);
   }
 
   @Override
