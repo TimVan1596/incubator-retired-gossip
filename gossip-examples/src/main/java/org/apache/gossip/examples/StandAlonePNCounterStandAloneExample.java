@@ -23,15 +23,15 @@ import org.apache.gossip.crdt.PNCounter;
 import org.apache.gossip.manager.GossipManager;
 import org.apache.gossip.model.SharedDataMessage;
 
-public class StandAlonePNCounter extends StandAloneExampleBase {
+public class StandAlonePNCounterStandAloneExample extends BaseStandAloneExample {
 
   public static void main(String[] args) throws InterruptedException, IOException {
-    StandAlonePNCounter example = new StandAlonePNCounter(args);
+    StandAlonePNCounterStandAloneExample example = new StandAlonePNCounterStandAloneExample(args);
     boolean willRead = true;
     example.exec(willRead);
   }
 
-  StandAlonePNCounter(String[] args) {
+  StandAlonePNCounterStandAloneExample(String[] args) {
     args = super.checkArgsForClearFlag(args);
     super.initGossipManager(args);
   }

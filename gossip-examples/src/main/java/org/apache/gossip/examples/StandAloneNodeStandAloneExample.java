@@ -22,7 +22,7 @@ import java.util.Scanner;
 
 import org.apache.gossip.manager.GossipManager;
 
-public class StandAloneNode extends StandAloneExampleBase {
+public class StandAloneNodeStandAloneExample extends BaseStandAloneExample {
 
   private static boolean WILL_READ = false;
 
@@ -62,11 +62,11 @@ public class StandAloneNode extends StandAloneExampleBase {
     System.out.println(String.format("%d号节点开始运行 -- port = %s , id = %s"
             , optionNum,paraURL[0].substring(paraURL[0].length()-4,paraURL[0].length()),paraURL[1]));
 
-    StandAloneNode example = new StandAloneNode(paraURL);
+    StandAloneNodeStandAloneExample example = new StandAloneNodeStandAloneExample(paraURL);
     example.exec(WILL_READ);
   }
 
-  StandAloneNode(String[] paraURL) {
+  StandAloneNodeStandAloneExample(String[] paraURL) {
     paraURL = super.checkArgsForClearFlag(paraURL);
     super.initGossipManager(paraURL);
   }

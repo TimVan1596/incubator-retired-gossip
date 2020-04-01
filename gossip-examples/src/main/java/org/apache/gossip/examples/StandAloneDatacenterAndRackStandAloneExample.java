@@ -23,7 +23,6 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 import org.apache.gossip.GossipSettings;
 import org.apache.gossip.RemoteMember;
@@ -31,7 +30,7 @@ import org.apache.gossip.manager.DatacenterRackAwareActiveGossiper;
 import org.apache.gossip.manager.GossipManager;
 import org.apache.gossip.manager.GossipManagerBuilder;
 
-public class StandAloneDatacenterAndRack extends StandAloneExampleBase {
+public class StandAloneDatacenterAndRackStandAloneExample extends BaseStandAloneExample {
 
   public static void main(String[] args) throws  IOException {
 
@@ -76,7 +75,7 @@ public class StandAloneDatacenterAndRack extends StandAloneExampleBase {
 //
 //
 //    StandAloneDatacenterAndRack example = new StandAloneDatacenterAndRack(paraURL);
-    StandAloneDatacenterAndRack example = new StandAloneDatacenterAndRack(args);
+    StandAloneDatacenterAndRackStandAloneExample example = new StandAloneDatacenterAndRackStandAloneExample(args);
 
     for (String inst : args) {
       System.out.println(inst);
@@ -85,7 +84,7 @@ public class StandAloneDatacenterAndRack extends StandAloneExampleBase {
     example.exec(willRead);
   }
 
-  StandAloneDatacenterAndRack(String[] param) {
+  StandAloneDatacenterAndRackStandAloneExample(String[] param) {
     param = super.checkArgsForClearFlag(param);
     initGossipManager(param);
   }

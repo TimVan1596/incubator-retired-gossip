@@ -39,7 +39,7 @@ mvn install -DskipTests
 When all that is finished are you ready to start running the first example...
 
 
-Running org.apache.gossip.examples.StandAloneNode
+Running org.apache.gossip.examples.StandAloneNodeStandAloneExample
 -------------------------------------------------
 This first example illustrates the basic, underlying, communication layer the sets up and maintains a gossip network cluster.
 
@@ -53,7 +53,7 @@ to the gossip-examples module and run the application in maven.
 Specifically, after cloning or downloading the repository:
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeStandAloneExample -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0"
 ```
 
 This sets up a single StandAloneNode that starts out listening to itself. The arguments are:
@@ -70,7 +70,7 @@ if, for some reason, this is not working in your case, you can add the (optional
 command line, to suppress this "clear screen" behavior. That is:
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.args="-s udp://localhost:10000 0 udp://localhost:10000 0"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeStandAloneExample -Dexec.args="-s udp://localhost:10000 0 udp://localhost:10000 0"
 ```
 
 Normally, you would set up nodes in a network on separate hosts, but in this case, illustrating the basic communications in gossip,
@@ -90,7 +90,7 @@ changed to reflect the fact that this is a different node
 That is:
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeStandAloneExample -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0"
 ```
 
 Now, because the "seed node" is the first node that we started, this second node is listening to the first node, 
@@ -103,7 +103,7 @@ Finally, in yet another terminal window, cd to the same folder and enter the the
 
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0”
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeStandAloneExample -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0”
 ```
 
 Now the lists of live nodes for the cluster converge to reflect each node's connections to the other two nodes.
@@ -122,7 +122,7 @@ running). This enables a quicker startup as failed nodes recover. In this exampl
 using control-c, simply re-issue the command to run the node.
 
 
-Running org.apache.gossip.examples.StandAloneNodeCrdtOrSet
+Running org.apache.gossip.examples.StandAloneNodeCrdtOrSetStandAloneExample
 ----------------------------------------------------------
 This second example illustrates the using the data layer to share structured information: a shared representation of a set
 of strings, and a shared counter. The objects representing those shared values are special cases of a Conflict-free Replicated
@@ -145,19 +145,19 @@ will illustrate shortly. But first, lets get the three nodes running:
 In the first terminal window:
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSet -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSetStandAloneExample -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0"
 ```
 
 In the second terminal window:
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSet -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSetStandAloneExample -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0"
 ```
 
 In the third terminal window:
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSet -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSetStandAloneExample -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0"
 ```
 
 Now, at any of the terminal windows, you can type a command from the following set of commands to change the data that is stored locally. 
@@ -184,7 +184,7 @@ As an augmentation to the video, this [wikipedia article](https://en.wikipedia.o
 describing various CRDT representations and their usefulness, as well as some information about interesting applications.
 
 
-Running org.apache.gossip.examples.StandAloneDatacenterAndRack
+Running org.apache.gossip.examples.StandAloneDatacenterAndRackStandAloneExample
 --------------------------------------------------------------
 
 This final example illustrates more fine grained control over the expected "responsiveness" of nodes in the cluster. 
@@ -204,7 +204,7 @@ To start the first node (in the first terminal window), type the following:
 
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRack -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0 1 2"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRackStandAloneExample -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0 1 2"
 ```
 The first four arguments are the same as in the other two examples, and the last two arguments are the new arguments:
 1. The URI (host and port) for the node - **udp://localhost:10000**
@@ -218,12 +218,12 @@ Lets then, set up two additional nodes (each in a separate terminal window), one
 and the other in a different data center. 
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRack -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0 1 3"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRackStandAloneExample -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0 1 3"
 ```
 
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRack -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0 2 2"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRackStandAloneExample -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0 2 2"
 ```
 
 Now, the application running in the first terminal window, is identified as running in data center 1 and on rack 2;

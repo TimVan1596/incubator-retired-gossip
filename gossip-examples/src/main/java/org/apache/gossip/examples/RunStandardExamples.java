@@ -46,17 +46,17 @@ public class RunStandardExamples {
   private static void runExaple(int exampleNumber, int channel) throws IOException {
     String[] args = stanardArgs(channel, new String[4]);
     if (exampleNumber == 1) {
-      StandAloneNode example = new StandAloneNode(args);
+      StandAloneNodeStandAloneExample example = new StandAloneNodeStandAloneExample(args);
       example.exec(WILL_NOT_READ);
     } else if (exampleNumber == 2) {
-      StandAloneNodeCrdtOrSet example = new StandAloneNodeCrdtOrSet(args);
+      StandAloneNodeCrdtOrSetStandAloneExample example = new StandAloneNodeCrdtOrSetStandAloneExample(args);
       example.exec(WILL_READ);
     } else if (exampleNumber == 3) {
-      StandAlonePNCounter example = new StandAlonePNCounter(args);
+      StandAlonePNCounterStandAloneExample example = new StandAlonePNCounterStandAloneExample(args);
       example.exec(WILL_READ);
     } else if (exampleNumber == 4) {
       args = extendedArgs(channel, new String[6]);
-      StandAloneDatacenterAndRack example = new StandAloneDatacenterAndRack(args);
+      StandAloneDatacenterAndRackStandAloneExample example = new StandAloneDatacenterAndRackStandAloneExample(args);
       example.exec(WILL_READ);
     }
   }

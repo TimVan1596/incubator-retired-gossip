@@ -23,8 +23,9 @@ import java.util.function.BiConsumer;
 
 import org.apache.gossip.crdt.OrSet.Builder.Operation;
 
-/*
- * A immutable set 
+/**
+ * A immutable set
+ * 一种不可变的数据结构
  */
 public class OrSet<E>  implements CrdtAddRemoveSet<E, Set<E>, OrSet<E>> {
   

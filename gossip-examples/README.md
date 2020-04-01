@@ -39,7 +39,7 @@ mvn install -DskipTests
 
 
 
-运行 org.apache.gossip.examples.StandAloneNode
+运行 org.apache.gossip.examples.StandAloneNodeStandAloneExample
 -------------------------------------------------
 第一个示例说明了基础的、底层的通信层。通信层建立并维护了 gossip 网络集群。
 
@@ -51,7 +51,7 @@ mvn install -DskipTests
 具体来说，在复制或下载仓库后可以：
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeStandAloneExample -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0"
 ```
 
 
@@ -67,7 +67,7 @@ mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.
 在此程序中，输出使用一种“终端转义序列”，该序列清除终端显示并将光标重置到左上角。如果由于某种原因在您的情况下不起作用，则可以在命令行的 args 中添加（optional）标志“-s”，以消除这种“清除屏幕”行为。这是：
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.args="-s udp://localhost:10000 0 udp://localhost:10000 0"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeStandAloneExample -Dexec.args="-s udp://localhost:10000 0 udp://localhost:10000 0"
 ```
 
 通常情况下，您会在分散主机的网络上建立节点，但在这里，为了说明 Gossip 中的基本通信，我们仅在同一主机 localhost 上运行所有节点。种子节点通常将是网络中其他节点之一：该节点有足够的信息来（最终）获取其集群中所有节点的列表。
@@ -84,7 +84,7 @@ mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.
 像这样：
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeStandAloneExample -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0"
 ```
 现在，因为“种子节点”是我们启动的第一个节点，因此第二个节点在监听第一个节点，并且它们交换已知节点的列表。然后开始互相监听，以便在短期内它们都拥有一个实时注释的列表，其中一个成员是集群中的另一个实时节点。
 
@@ -94,7 +94,7 @@ mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.
 
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0”
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeStandAloneExample -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0”
 ```
 现在，集群的活动节点列表会聚合起来，反映了每个节点与其他两个节点的连接。
 
@@ -104,7 +104,7 @@ mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.
 
 还要注意，运行这些节点的进程会生成一组记录节点状态的 JSON 文件（位于节点运行的 “base” 目录中）。当故障节点的恢复，这可以启用快速启动。在此示例中，要使用control-c恢复已杀死的节点，只需重新发出命令以运行该节点。
 
-运行 org.apache.gossip.examples.StandAloneNodeCrdtOrSet
+运行 org.apache.gossip.examples.StandAloneNodeCrdtOrSetStandAloneExample
 ----------------------------------------------------------
 
 第二个示例说明了如何使用数据层共享结构化信息：一组字符串的共享和共享计数器的表示形式。表示这些共享值的对象是免冲突的可复制的数据类型（即CRDT）的特例。
@@ -124,19 +124,19 @@ mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNode -Dexec.
 在第一个终端窗口中：
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSet -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSetStandAloneExample -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0"
 ```
 
 在第二个终端窗口中：
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSet -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSetStandAloneExample -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0"
 ```
 
 在第三个终端窗口中：
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSet -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneNodeCrdtOrSetStandAloneExample -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0"
 ```
 
 
@@ -158,7 +158,7 @@ g number
 作视频的一个补充，这个[维基百科文章](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type)描述了各种CRDT的表示形式及他们的作用，以及关于一些有趣的应用程序的信息。
 
 
-运行 org.apache.gossip.examples.StandAloneDatacenterAndRack
+运行 org.apache.gossip.examples.StandAloneDatacenterAndRackStandAloneExample
 --------------------------------------------------------------
 
 
@@ -175,7 +175,7 @@ g number
 
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRack -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0 1 2"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRackStandAloneExample -Dexec.args="udp://localhost:10000 0 udp://localhost:10000 0 1 2"
 ```
 前四个参数与其他两个示例相同，后面两个参数是新参数：
 1. 节点的URI（主机和端口）- **udp://localhost:10000**
@@ -188,12 +188,12 @@ mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAn
 然后，让我们设置另外的两个节点（每个节点在一个单独的终端窗口中），一个在不同机架上的同一数据中心，另一个在不同的数据中心中。
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRack -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0 1 3"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRackStandAloneExample -Dexec.args="udp://localhost:10001 1 udp://localhost:10000 0 1 3"
 ```
 
 ```
 cd incubator-gossip/gossip-examples
-mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRack -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0 2 2"
+mvn exec:java -Dexec.mainClass=org.apache.gossip.examples.StandAloneDatacenterAndRackStandAloneExample -Dexec.args="udp://localhost:10002 2 udp://localhost:10000 0 2 2"
 ```
 现在，运行在第一个终端窗口中的应用程序，被识别为在数据中心1和机架2中运行；第二个终端窗口中的应用程序在同一数据中心的不同机架（数据中心1，机架3）中运行。同时，第三个终端中的应用程序在不同的数据中心（数据中心2）中运行。
 
